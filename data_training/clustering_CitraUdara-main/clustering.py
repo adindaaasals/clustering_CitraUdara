@@ -10,72 +10,6 @@ from sklearn.metrics import silhouette_score
 import requests
 import zipfile
 import io
-import base64
-
-st.set_page_config(layout="wide")  
-
-# CSS untuk styling halaman
-def set_custom_css():
-    st.markdown(
-        """
-        <style>
-        /* Ubah background aplikasi */
-        .stApp {
-            background-color: #808080;  /* Sky Blue */
-        }
-
-        /* Atur max-width untuk konten utama */
-        .main {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Atur judul agar di tengah */
-        .centered-title {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100px;
-            font-size: 48px;
-            font-weight: bold;
-            text-align: center;
-            color: #FFFFFF;  /* Teks putih untuk kontras */
-        }
-
-        /* Atur subtitle atau deskripsi */
-        .subtitle {
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #FFFFFF;  /* Teks putih */
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-set_custom_css()
-
-st.markdown(
-    """
-    <div class="centered-title">
-        K-Means Clustering pada Citra Udara
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    """
-    <div class="subtitle">
-        Disusun oleh Aliya Rahmania (140810210005), Adinda Salsabila (140810210017), 
-        Devi Humaira (140810220015) untuk UTS Data Mining 2024
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
 
 # Fungsi untuk mengunduh dan mengekstrak dataset dari GitHub
 def download_and_extract_dataset(url, extract_to="data_training"):
@@ -174,9 +108,9 @@ class KMeansModel:
 
         col1, col2 = st.columns(2)
         with col1:
-            st.image(image, caption="Gambar Asli", width=300)  
+            st.image(image, caption="Gambar Asli", use_column_width=True)
         with col2:
-            st.image(segmented_image, caption=f"Hasil Clustering dengan K={k}", width=300)  
+            st.image(segmented_image, caption=f"Hasil Clustering dengan K={k}", use_column_width=True)
 
         st.write(f"Silhouette Score: {silhouette_avg:.4f}")
 
@@ -188,6 +122,10 @@ def load_training_data(folder_path):
             img = Image.open(os.path.join(folder_path, filename)).resize((256, 256))
             images.append(np.array(img))
     return images
+
+# Inisialisasi Streamlit dan Model
+st.title("K-Means Clustering pada Citra Udara")
+st.write("Disusun oleh Aliya Rahmania (140810210005), Adinda Salsabila (140810210017), Devi Humaira (140810220015) untuk UTS Data Mining 2024")
 
 
 if "model" not in st.session_state:
